@@ -1,0 +1,66 @@
+To deal with multiple data in Hibernate we have following ways:
+
+1. HQL(Hibernate Query Language)
+2. Native SQL(Structured Query Language)
+3. Criteria API
+
+HQL
+---
+// HQL focuses on Entity class and its properties
+
+in SQL (Database Dependent)
+Select * from table_name;
+
+in HQL (Database Independent)
+Select xyz from Employee xyz;
+from Employee;
+
+
+HQL ParaMeters:
+	1. By Position (?)
+	2. By Name
+
+---------Native SQL
+List<Object> list = q.list(); // size 4 rep
+
+
+
+
+
+
+
+
+Criteria API(Application programming interface)
+-----
+//QUERY 1 (Selecting all data from a particular table)
+
+Criteria criteria = ses.createCriteria(Employee.class);
+List<Employee> list = criteria.list();
+for(Employee e: list){
+	SOP("id: "+e.getId()+", name: "+e.getName());
+}
+
+--------------------------------------------------
+
+// QUERY 2 (Selecting specific data via conditions)
+
+Criteria criteria = ses.createCriteria(Employee.class);
+
+Criterion condition1 = Restrictions.eq("name", "Suresh");
+criteria.add(condition1);
+
+List<Employee> list = criteria.list();
+for(Employee e: list){
+	SOP("id: "+e.getId()+", name: "+e.getName());
+}
+
+-------------------------------------------------
+
+SQL (IN) Operator --> allows you to specify multiple balues in WHERE clause; its a shorthand for multiple OR conditions
+
+SELECT * FROM Customers
+WHERE Country IN ('Germany','France','Uk')
+
+/// Criterion Conditions bydefault AND operator pe run horahi hain;;
+
+

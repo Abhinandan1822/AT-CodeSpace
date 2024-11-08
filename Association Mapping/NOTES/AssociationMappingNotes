@@ -1,0 +1,142 @@
+1. Component Mapping
+2. Inheritance Mapping:
+	Single Table Inheritance
+	Joined SubClass Inheritance
+	Table Per Class Inheritance
+3. Association Mapping
+	ONE TO ONE
+	ONE TO MANY
+	MANY TO ONE
+	MANY TO MANY	
+
+
+// Inheritance--> is-A relation
+// Association--> has-A relation
+
+User has-A passport
+
+User{
+	id, name;
+	Passport passport;
+}
+Passport{
+	countyOfOrigin, issueDate...
+}
+
+----------
+
+Example :Employee (E ke Multiple P honge)      M<--->M       Project (Aur P pe Multiple E honge)
+
+------
+
+Sir Notes:
+  	
+  	Hibernate provides different annotations with Association Mapping
+  	 	ONE TO ONE   --->  @OneToOne
+		ONE TO MANY  --->  @OneToMany
+		MANY TO ONE  --->  @ManyToOne
+		MANY TO MANY --->  @ManyToMany	 
+
+	Then there is a uni-directional(only one entity holds a reference to the other) bi-directional(both entities hold references to each other.) concepts in all types of association.
+
+	    If the entity is having another entity as its member is known as Owner and other one is owned
+	   
+        If the relation is unidirectional then distinction of owner and owned is very simple, the enitity which other entity has its members is known as Owner	
+
+In case of bi-directional relation owner and owned are identified with the help of mapping informations.
+
+    From the mapping perspective owner and owned entities have different repsonsibilities
+
+    		RESPONSIBILITIES OF OWNER ENTITY (Follow these steps)
+    			a. It needs to provide the mapping of its state or properties,
+    			b. It needs to sepcify its relation with the owned entity 
+    			c. It needs to specify how the relation is persisted in the database. 	
+	    		d. It needs to specify which persistence operation of the owner will be cascaded in the owned entity 
+
+	    	RESPONSIBILITIES OF OWNED ENTITY	
+	    		a. It needs to provide the mapping of its state or properties,
+	    		b. If the relation is Bi-directional, it needs to specify the relation with owner entity and also how it is persisted by 	the owner
+
+JT(Join_Table) provides two annotations to persist the relation and the database
+1. @JOIN_COLUMN --> used to map a relation using Primary key and Foreign Key
+2. @JOIN_TABLE --> used to map a relation with the help of a relation table
+
+1. One To One Relation--> is mapped with the help of primary key and foreign key and seperate tables are created for outer and owned 	    entity 
+
+IN CASE OF ONE TO ONE RELATION, The Owned side is managed in the owner table
+
+             LandName  LandOwner     LandNumber   LandPiece_PieceId
+BADSHAH ---> Tishak	  Sishupati ji	 2 	          1(PK)
+
+ 				id        District
+LAndPiece ---> 1(FK)	Bhiloni district
+	
+
+-------
+
+One To Many (many tasks can be hold in collections only)
+
+Employee 1----------->n  Task
+
+Employee{
+
+	@OneToMany(...)
+    @JoinColumn
+	List<Task> tasks // Collections is followed for MANY
+}
+
+
+IN CASE OF ONE TO MANY RELATION, The owner side id is managed in the owned table (only applicable in PK-Fk relation cases and @joinColumn)
+
+				id(Pk)    name   company
+EMPLOYEE --->    1    Abhi    TCS
+			
+				id   task_name     emp_id(FK)
+TASKS --->	    A     programming   1
+
+-----
+
+
+--------------------
+Many To One (Uni - Bi)
+Many To Many (Uni-Bi)
+---------------------
+
+->MANY TO ONE (Uni)
+
+When One To Many relation is made Bi-directional it becomes Many To One from other end, in such cases @Entity of the many side act as the Owner.
+
+(ONE TO MANY)
+Employee (one owner entity)    --->    (many owned entity)  Task
+                                                                                                   
+(MANY TO ONE)
+Task(new (Many) owner entity)    --->   (one owned entity)   Employee
+
+-Many to One Relation can only be mapped with (pk-fk)
+
+
+->MANY TO ONE (Bi-d)
+
+------------------------
+
+-> MANY To MANY (Uni) using a relation, @JoinTab
+
+User               																	Project
+	id 		name 	company       	                                                     id 		project_name
+	1       Manish	TCS																	  1          Appointment System
+	2       Deepak  IBM																	  2          Hospital Mgmt
+
+											User_projects
+												User_id      Project_id
+												1             1
+												1             2
+												2             1
+
+
+
+
+
+
+
+
+
